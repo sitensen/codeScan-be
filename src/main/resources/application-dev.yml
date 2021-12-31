@@ -15,10 +15,13 @@ logging:
   level:
     root: info
     com.hongtech.admin: debug
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 minio:
   server: http://101.43.151.105:9000
   accessKey: admin
   secretKey: password
 
 zip:
-  fiepath: D:\\
+  filepath: /Users/guoxuehe/Downloads/

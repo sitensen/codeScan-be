@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/file")
 public class SysFileController {
 
+
     @Autowired
     private IFileService fileService;
 
@@ -25,7 +26,9 @@ public class SysFileController {
         if(file == null){
             return CommonResult.failed();
         }
+        //上传到MINIIO
         String url = fileService.uploadFileRtPath(file);
+
         return CommonResult.success(url);
     }
 

@@ -17,3 +17,10 @@ logging:
   level:
     root: info
     com.hongtech.admin: info
+minio:
+  server: http://101.43.151.105:9000
+  accessKey: admin
+  secretKey: password
+
+zip:
+  filepath: D:\\
