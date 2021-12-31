@@ -12,4 +12,6 @@ public class SourceCodeVo {
     private long id;
     private String codePath;
     private String codeType;
+    private String createUser;
+    private String uploadTime;
 }
