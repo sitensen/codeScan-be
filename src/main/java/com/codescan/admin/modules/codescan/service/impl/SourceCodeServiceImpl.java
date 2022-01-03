@@ -54,12 +54,14 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
     @SneakyThrows
     public void analysisSourceCode(SourceCodeVo sourceCodeVo, SysFile sysFile){
         String localPath = sysFile.getLocalUrl();
+        String fileName = new File(localPath).getName();
+        String directoryName = fileName.substring(0,fileName.length()-4);
         if(StringUtils.isEmpty(localPath)){
             throw new ApiException("获取文件信息失败!");
         }
         String location = zipUtils.unzipFile(localPath);
-        log.info("解压后的目录为{}",location);
-        this.execPython(location,sourceCodeVo);
+        log.info("解压后的目录为{},文件名为{}",location,directoryName);
+        this.execPython(location+File.separator + directoryName,sourceCodeVo);
     }
 
     private void execPython(String pythonFilePath,SourceCodeVo sourceCodeVo){
@@ -99,7 +101,7 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
 //            reader2.close();
             process.waitFor();
 //            process2.waitFor();
-            String localPath = pythonFilePath + File.separator + "report."+reportType;
+            String localPath = pythonFilePath + "report."+reportType;
             String url = fileService.uploadFile(localPath);
             log.info("localPath:{},minio url:{}",localPath,url);
             SourceReportVo reportVo = SourceReportVo.builder()
