@@ -61,7 +61,7 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
         }
         String location = zipUtils.unzipFile(localPath);
         log.info("解压后的目录为{},文件名为{}",location,directoryName);
-        this.execPython(location + directoryName + File.separator,sourceCodeVo);
+        this.execPython(location ,sourceCodeVo);
     }
 
     private void execPython(String pythonFilePath,SourceCodeVo sourceCodeVo){
