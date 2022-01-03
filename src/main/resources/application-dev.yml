@@ -24,4 +24,4 @@ minio:
   secretKey: password
 
 zip:
-  filepath: /Users/guoxuehe/Downloads/
+  filepath: /home/ubuntu/localfile
