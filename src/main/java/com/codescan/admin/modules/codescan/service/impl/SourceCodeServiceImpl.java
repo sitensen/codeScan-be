@@ -58,31 +58,32 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
             throw new ApiException("获取文件信息失败!");
         }
         String location = zipUtils.unzipFile(localPath);
+        log.info("解压后的目录为{}",location);
         this.execPython(location,sourceCodeVo);
     }
 
     private void execPython(String pythonFilePath,SourceCodeVo sourceCodeVo){
-        String pythonFiles = pythonFilePath + File.separator ;
+        String pythonFiles = pythonFilePath ;
         String reportType = StringUtils.isEmpty(sourceCodeVo.getReportType())?"html":sourceCodeVo.getReportType();
         try {
             //'csv', 'custom', 'html', 'json', 'screen', 'txt', 'xml', 'yaml'
             String execCommand = "";
             if("csv".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("custom".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("json".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("screen".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("txt".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("xml".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r  " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r  " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else if("yaml".equalsIgnoreCase(reportType)){
-                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }else {
-                execCommand = "bandit -r  " + pythonFiles + " -f html -o " + pythonFilePath+File.separator+"report.html";
+                execCommand = "bandit -r  " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }
 
             String execCommand2 = "bandit -r " + pythonFiles ;
@@ -100,6 +101,7 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
 //            process2.waitFor();
             String localPath = pythonFilePath + File.separator + "report."+reportType;
             String url = fileService.uploadFile(localPath);
+            log.info("localPath:{},minio url:{}",localPath,url);
             SourceReportVo reportVo = SourceReportVo.builder()
 //                    .desc(desc)
                     .filePath(url)
