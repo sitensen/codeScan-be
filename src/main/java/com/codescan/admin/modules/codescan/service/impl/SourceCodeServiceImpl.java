@@ -37,14 +37,14 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
     public boolean saveSourceCode(SourceCodeVo sourceCodeVo) {
         sourceCodeVo.setUploadTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         boolean flag = this.save(sourceCodeVo);
-        String path = sourceCodeVo.getCodePath();
-        if(path.toLowerCase().endsWith(".zip")){
-            SysFile sysFile = fileService.findByMinioUrl(path);
+        String suffiixName = sourceCodeVo.getCodePath().substring(sourceCodeVo.getCodePath().lastIndexOf("."));
+        if(suffiixName.equalsIgnoreCase(".zip")){
+            SysFile sysFile = fileService.findByMinioUrl(sourceCodeVo.getCodePath());
             if(Objects.isNull(sysFile)){
                 throw new ApiException("获取文件信息失败!");
             }
             new Thread(()->analysisSourceCode(sourceCodeVo,sysFile)).start();
-        }else if(path.toLowerCase().endsWith(".py")){
+        }else if(suffiixName.toLowerCase().endsWith("py")){
             //TODO
         }
 
