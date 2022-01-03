@@ -61,7 +61,7 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
         }
         String location = zipUtils.unzipFile(localPath);
         log.info("解压后的目录为{},文件名为{}",location,directoryName);
-        this.execPython(location+File.separator + directoryName,sourceCodeVo);
+        this.execPython(location + directoryName + File.separator,sourceCodeVo);
     }
 
     private void execPython(String pythonFilePath,SourceCodeVo sourceCodeVo){
@@ -88,6 +88,7 @@ public class SourceCodeServiceImpl extends ServiceImpl<SourceCodeMapper, SourceC
                 execCommand = "bandit -r  " + pythonFiles + " -f html -o " + pythonFiles+"report.html";
             }
 
+            log.info("执行的命令为{}",execCommand);
             String execCommand2 = "bandit -r " + pythonFiles ;
             String desc = "";
             Process process = Runtime.getRuntime().exec(execCommand);
