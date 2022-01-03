@@ -30,10 +30,4 @@ public class AdminWebApplicationTests {
         SysFile sysFile = fileService.findByMinioUrl(url);
         System.out.println(sysFile.toString());
     }
-
-    @Test
-    public void unzipFileInfo() throws IOException {
-        String fileName = "/Users/guoxuehe/Downloads/111/m2.zip";
-        zipUtils.unzipFile(fileName);
-    }
 }
