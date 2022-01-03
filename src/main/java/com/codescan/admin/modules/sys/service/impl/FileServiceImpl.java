@@ -2,6 +2,7 @@ package com.codescan.admin.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.codescan.admin.common.exception.ApiException;
 import com.codescan.admin.modules.sys.mapper.SysFileMapper;
 import com.codescan.admin.modules.sys.model.SysFile;
 import com.codescan.admin.modules.sys.service.IFileService;
@@ -89,7 +90,8 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
             String localFilePath = filepath + random + File.separator + fileName;
             File dest = new File(localFilePath);
             if(!dest.getParentFile().exists()){
-                dest.getParentFile().mkdir();
+                dest.getParentFile().mkdirs();
+                dest.createNewFile();
             }
             file.transferTo(dest);
             log.info("上传的文件名为:{},上传的后缀为:{},minioUrl:{},本地url:{}",fileName,suffiixName,minioUrl,localFilePath);
@@ -103,8 +105,8 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
             return minioUrl;
         } catch (Exception e) {
             e.printStackTrace();
+            throw new ApiException("上传文件失败！");
         }
-        return "";
     }
 
     @Override
