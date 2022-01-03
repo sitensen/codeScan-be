@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -43,10 +40,12 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
     public String uploadFile(String filepath) {
         String url = "";
         try {
+            File file = new File(filepath);
             MinioUtils minioClient = new MinioUtils(server, username, password);
-            url = minioClient.putObject(filepath);
+            url = minioClient.upload(new FileInputStream(file),file.getName());
         } catch (Exception e) {
             e.printStackTrace();
+            throw new ApiException("生成报告失败！");
         }
         return url;
     };
