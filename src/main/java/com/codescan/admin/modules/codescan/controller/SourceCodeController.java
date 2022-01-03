@@ -23,6 +23,7 @@ public class SourceCodeController {
             return CommonResult.failed("源码文件不能为空!");
         }
         if(sourceCodeVo.getCodePath().endsWith(".zip")){
+            // || sourceCodeVo.getCodePath().equalsIgnoreCase(".py")
             return CommonResult.failed("源码文件格式错误,请上传zip压缩包!");
         }
         sourceCodeService.saveSourceCode(sourceCodeVo);

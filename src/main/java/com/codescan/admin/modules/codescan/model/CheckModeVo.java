@@ -1,5 +1,7 @@
 package com.codescan.admin.modules.codescan.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -9,6 +11,7 @@ import lombok.Data;
 @TableName(value = "tb_check_mode")
 @Data
 public class CheckModeVo {
-    private long id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
     private String modeName;
 }

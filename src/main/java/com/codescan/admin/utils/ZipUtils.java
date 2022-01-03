@@ -13,23 +13,43 @@ import java.util.zip.ZipOutputStream;
 @Component
 public class ZipUtils {
     @Value("${zip.filepath}")
-    private String filePath;
+    private String filepath;
 
-    public void unzipFile(String file) throws IOException {
-        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file),Charset.forName("GBK"));
-        ZipEntry entry;
-        while((entry = zipInputStream.getNextEntry()) != null){
-            if(!entry.isDirectory()){
-                FileOutputStream out = new FileOutputStream( filePath + entry.getName());
-                BufferedOutputStream bos = new BufferedOutputStream(out);
-                int len;
-                byte[] buf = new byte[1024];
-                while((len = zipInputStream.read(buf)) != -1){
-                    bos.write(buf,0,len);
+    public String unzipFile(String file) throws IOException {
+        String location = filepath + new Date().getTime() + File.separator;
+        File f = new File(location);
+        if(!f.isDirectory()){
+            f.mkdirs();
+        }
+        ZipInputStream zin = new ZipInputStream(new FileInputStream(file));
+        try {
+            ZipEntry ze = null;
+            while ((ze = zin.getNextEntry()) != null) {
+                String path = location + ze.getName();
+
+                if (ze.isDirectory()) {
+                    File unzipFile = new File(path);
+                    if(!unzipFile.isDirectory()) {
+                        unzipFile.mkdirs();
+                    }
                 }
-                bos.close();
-                out.close();
+                else {
+                    FileOutputStream fout = new FileOutputStream(path, false);
+                    try {
+                        for (int c = zin.read(); c != -1; c = zin.read()) {
+                            fout.write(c);
+                        }
+                        zin.closeEntry();
+                    }
+                    finally {
+                        fout.close();
+                    }
+                }
             }
         }
+        finally {
+            zin.close();
+        }
+        return location;
     }
 }

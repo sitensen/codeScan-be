@@ -5,7 +5,7 @@ import com.codescan.admin.modules.sys.model.SysFile;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IFileService extends IService<SysFile> {
-    String uploadFile(MultipartFile file);
+    String uploadFile(String filePath);
 
     String uploadFileRtPath(MultipartFile file);
 

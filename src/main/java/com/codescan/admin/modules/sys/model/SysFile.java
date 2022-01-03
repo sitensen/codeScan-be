@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("sys_file")
 public class SysFile implements Serializable {
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
     private String minioUrl;
     private String localUrl;

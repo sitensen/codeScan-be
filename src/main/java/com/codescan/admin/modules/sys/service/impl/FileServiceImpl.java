@@ -39,16 +39,16 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile(String filepath) {
+        String url = "";
         try {
             MinioUtils minioClient = new MinioUtils(server, username, password);
-            String url = minioClient.putObject(file, file.getContentType());
-            return url;
+            url = minioClient.putObject(filepath);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
-    }
+        return url;
+    };
 
     public List<String> uploadFiles(MultipartFile[] files) {
         List<String> result = new ArrayList<>();
