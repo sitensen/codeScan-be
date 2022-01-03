@@ -281,6 +281,21 @@ public class MinioUtils {
         return fileName;
     }
 
+    public String upload(InputStream stream, String relativePath) throws Exception {
+        if (minioClient.bucketExists((BucketExistsArgs)((BucketExistsArgs.Builder)BucketExistsArgs.builder().bucket(COMMON_FILE)).build())) {
+            log.info("Bucket already exists.");
+        } else {
+            minioClient.makeBucket((MakeBucketArgs)((io.minio.MakeBucketArgs.Builder)MakeBucketArgs.builder().bucket(COMMON_FILE)).build());
+            log.info("create a new bucket.");
+        }
+
+        PutObjectArgs objectArgs = (PutObjectArgs)((io.minio.PutObjectArgs.Builder)((io.minio.PutObjectArgs.Builder)PutObjectArgs
+                .builder().object(relativePath)).bucket(COMMON_FILE)).contentType("application/octet-stream").stream(stream, (long)stream.available(), -1L).build();
+        minioClient.putObject(objectArgs);
+        stream.close();
+        return  getBasisUrl() + relativePath;
+    }
+
     /**
      * 上传本地文件
      *
