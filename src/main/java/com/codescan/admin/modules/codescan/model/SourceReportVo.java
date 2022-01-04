@@ -19,5 +19,4 @@ public class SourceReportVo {
     private Long sourceId;
     private String reportName;
     private String filePath;
-    private String desc;
 }
